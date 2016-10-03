@@ -5,8 +5,8 @@
 		<span class="input-guide" v-show="this.$parent.rssData.length < 1" >{{bottomText}}</span>
 		<div class="input-guide orderby" v-show="this.$parent.rssData.length > 0">
 			<span>Order by:</span>
-			<button class="active" >Date DESC</button>
 			<button @click="sortByName">Name</button>
+			<button @click="sortByDate">Date</button>
 		</div>
 	</div>
 </template>
@@ -18,8 +18,8 @@
 
 		methods: {
 			fetchFeed: function (e, rssUrl = this.enteredUrl) {
-				
-				this.$http.get('https://crossorigin.me/https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&q=' + rssUrl + '&m=10').then((response) => {
+				this.$parent.resultText = "Loading data... Sometimes server is really slow";
+				this.$http.get('https://crossorigin.me/https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&q=' + rssUrl ).then((response) => {
 					var responseObject = JSON.parse(response.body);
 					if (responseObject.responseStatus == 200) {
 						this.$parent.rssData = responseObject.responseData.feed.entries;
@@ -32,6 +32,7 @@
 					} else {
 						this.bottomText = "Sorry but we could not find your rss feed."
 						this.$parent.rssData = [];
+						this.$parent.resultText = "This is very empty place. You should add RSS feed :)";
 					}
 				}, (response) => {
 					this.bottomText = ("oh noes server is down :(");
@@ -44,13 +45,31 @@
 				}
 			},
 			sortByName: function(){
-				this.$parent.rssData.sort(function(a,b){
-					if(a.title < b.title) return -1;
-					if(a.title > b.title) return 1;
-					return 0;
-				});
+				if(this.currentOrder == "name"){
+					this.$parent.rssData.reverse();
+				}else{
+					this.$parent.rssData.sort(function(a,b){
+						if(a.title < b.title) return -1;
+						if(a.title > b.title) return 1;
+						return 0;
+					});
+					this.currentOrder = "name";
+				}	
+				
 			},
 			sortByDate: function () {
+				if(this.currentOrder == "date"){
+					this.$parent.rssData.reverse();
+				}else{
+					this.$parent.rssData.sort(function(a,b){
+						var dateA = new Date(a.date).getTime();
+						var dateB = new Date(b.date).getTime();
+						if(dateA < dateB) return -1;
+						if(dateA > dateB) return 1;
+						return 0;
+					});
+					this.currentOrder = "date";
+				}
 				
 			}
 		},
@@ -58,6 +77,7 @@
 			return {
 				history: historyStorage.fetch(),
 				enteredUrl: "",
+				currentOrder: "",
 				bottomText: "Start your journey by entering rss feed url. Made with love and vue.js 2.0"
 			}
 		},

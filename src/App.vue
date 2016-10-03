@@ -27,6 +27,7 @@ export default {
       rssData:[],
       showModal: false,
       modalInfo: {},
+      resultText: "This is very empty place. You should add RSS feed :)" 
     }
   },
   components: {
