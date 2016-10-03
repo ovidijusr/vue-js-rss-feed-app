@@ -19,7 +19,8 @@
   "dependencies": {
     "sort-by": "^1.1.1",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3"
+    "vue-resource": "^1.0.3",
+    "vue-spinner": "^1.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",

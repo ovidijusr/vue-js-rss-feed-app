@@ -4,19 +4,26 @@
 			<ul v-show="list">
 				<h2 v-show="list.length < 1" >This is very empty place. You should add RSS feed :)</h2>
 				<li v-for="item in list">
-					<h3 @click="showModal(item)">{{item.title}}</h3> <span><i>{{item.publishedDate}}</i></span><br>
+					<h3 @click="showModal(item)">{{item.title}}</h3> <span><i>{{formatTime(item.publishedDate)}}</i></span><br>
+					<span>{{item.contentSnippet}}</span>
 				</li>
 			</ul>
 		</div>	
 	</div>
 </template>
 <script>
+	var PulseLoader= require('vue-spinner/dist/vue-spinner.min').PulseLoader;
+	console.log(PulseLoader);
 	import historyStorage from '../assets/historyStorage';
 	export default {
 		props:['list'],
 		computed: {
 		},
 		methods: {
+			formatTime: function(dateString){
+				var dateObject = new Date(dateString);
+				return dateObject.getTime();
+			},
 			showModal: function (item) {
 				this.$parent.modalInfo = item;
 				this.$parent.showModal = true;

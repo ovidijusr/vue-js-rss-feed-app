@@ -95,15 +95,11 @@
 		margin-top: 0;
 		color: #e65100;
 	}
-
 	.modal-body {
 		margin: 20px 0;
+		overflow: scroll;
+		height: 360px;
 	}
-
-	.modal-header slot {
-
-	}
-
 	.modal-default-button {
 
 		margin: 0 10px;

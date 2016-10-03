@@ -1,8 +1,13 @@
 <template>
 	<div class="rssInput">
-		<input @load="init" type="text" v-model="enteredUrl" :placeholder="placeholder">
+		<input @load="init" type="text" v-model="enteredUrl" :placeholder="placeholder" v-on:keyup.enter="fetchFeed">
 		<button @click="fetchFeed">Search</button>
-		<span class="input-guide">{{bottomText}}</span>
+		<span class="input-guide" v-show="this.$parent.rssData.length < 1" >{{bottomText}}</span>
+		<div class="input-guide orderby" v-show="this.$parent.rssData.length > 0">
+			<span>Order by:</span>
+			<button class="active" >Date DESC</button>
+			<button @click="sortByName">Name</button>
+		</div>
 	</div>
 </template>
 <script>
@@ -13,7 +18,7 @@
 
 		methods: {
 			fetchFeed: function (e, rssUrl = this.enteredUrl) {
-				console.log(rssUrl);
+				
 				this.$http.get('https://crossorigin.me/https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&q=' + rssUrl + '&m=10').then((response) => {
 					var responseObject = JSON.parse(response.body);
 					if (responseObject.responseStatus == 200) {
@@ -26,6 +31,7 @@
 						historyStorage.save(this.history);
 					} else {
 						this.bottomText = "Sorry but we could not find your rss feed."
+						this.$parent.rssData = [];
 					}
 				}, (response) => {
 					this.bottomText = ("oh noes server is down :(");
@@ -36,6 +42,16 @@
 				if (historySize > 0) {
 					this.fetchFeed(history[historySize - 1]);
 				}
+			},
+			sortByName: function(){
+				this.$parent.rssData.sort(function(a,b){
+					if(a.title < b.title) return -1;
+					if(a.title > b.title) return 1;
+					return 0;
+				});
+			},
+			sortByDate: function () {
+				
 			}
 		},
 		data () {
@@ -66,7 +82,6 @@
 
 	.rssInput button {
 		text-transform: uppercase;
-		padding: 13px 10px;
 		background: #ff7043;
 		color: white;
 		font-size: 14px;
@@ -74,6 +89,7 @@
 		border-radius: 5px;
 		font-weight: bold;
 		box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.16), 0 0px 0px 1px rgba(0, 0, 0, 0.06);
+		padding: 16px 10px 13px;
 	}
 
 	.rssInput .input-guide {
