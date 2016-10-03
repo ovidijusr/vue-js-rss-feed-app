@@ -1,5 +1,5 @@
 <template>
-	<transition name="modal" >
+	<transition name="modal">
 		<div class="modal-mask" v-show="this.$parent.showModal">
 			<div class="modal-wrapper">
 				<div class="modal-container">
@@ -24,15 +24,15 @@
 								<button class="modal-default-button" @click="hideModal">
 									Back
 								</button>
-								
+
 								<button class="modal-default-button" @click="openPage($parent.modalInfo.link)">
 									Go to page
 								</button>
-							
-								
+
+
 							</div>
-							
-							
+
+
 						</slot>
 					</div>
 				</div>
@@ -42,19 +42,21 @@
 </template>
 <script>
 	export default {
-		data(){ return{
-			showModal: this.$parent.modalInfo
-		}},
+		data(){
+			return {
+				showModal: this.$parent.modalInfo
+			}
+		},
 		methods: {
-			hideModal: function(){
-				this.$parent.showModal=false;
+			hideModal: function () {
+				this.$parent.showModal = false;
 			},
 			openPage(link){
 				document.location.href = link;
 			}
 		}
 	}
-	
+
 </script>
 <style>
 	.modal-mask {
@@ -73,9 +75,11 @@
 		display: table-cell;
 		vertical-align: middle;
 	}
-	.buttonContainer{
+
+	.buttonContainer {
 		text-align: right;
 	}
+
 	.modal-container {
 		max-width: 1024px;
 		margin: 0px auto;
@@ -95,26 +99,27 @@
 	.modal-body {
 		margin: 20px 0;
 	}
-	.modal-header slot{
-		
+
+	.modal-header slot {
+
 	}
-	
+
 	.modal-default-button {
-		
+
 		margin: 0 10px;
-		border:none;
+		border: none;
 		background: #e65100;
-		color:white;
-		padding:15px;
-		font-size:17px;
+		color: white;
+		padding: 15px;
+		font-size: 17px;
 		border-radius: 5px;
 	}
-	.modal-default-button:hover{
+
+	.modal-default-button:hover {
 		cursor: pointer;
 		background: rgba(230, 81, 0, 0.77);
 	}
 
-	
 	.modal-enter {
 		opacity: 0;
 	}

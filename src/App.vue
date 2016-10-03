@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Hello from './components/Hello.vue'
+
 import rssInput from './components/rss-input.vue'
 import rssResults from './components/rss-results.vue'
 import rssHistory from './components/rss-history.vue'
@@ -30,7 +30,7 @@ export default {
     }
   },
   components: {
-    Hello, rssInput, rssResults, rssHistory, rssModal
+    rssInput, rssResults, rssHistory, rssModal
   }
 }
 </script>

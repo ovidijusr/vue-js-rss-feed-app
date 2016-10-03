@@ -8,9 +8,9 @@
 <script>
 	import historyStorage from '../assets/historyStorage';
 	export default {
-		
+
 		props: ['placeholder', 'list', 'ajaxUrl'],
-		
+
 		methods: {
 			fetchFeed: function (e, rssUrl = this.enteredUrl) {
 				console.log(rssUrl);
@@ -19,8 +19,8 @@
 					if (responseObject.responseStatus == 200) {
 						this.$parent.rssData = responseObject.responseData.feed.entries;
 						var historyLocation = this.history.indexOf(rssUrl);
-						if (historyLocation > -1){
-							this.history.splice(historyLocation,1);
+						if (historyLocation > -1) {
+							this.history.splice(historyLocation, 1);
 						}
 						this.history.push(rssUrl);
 						historyStorage.save(this.history);
@@ -31,10 +31,10 @@
 					this.bottomText = ("oh noes server is down :(");
 				});
 			},
-			init: function(){
+			init: function () {
 				var historySize = history.length;
-				if(historySize > 0){
-					this.fetchFeed(history[historySize-1]);
+				if (historySize > 0) {
+					this.fetchFeed(history[historySize - 1]);
 				}
 			}
 		},
@@ -47,23 +47,24 @@
 		},
 		mounted() {
 			var historySize = this.history.length;
-			if(historySize > 0){
-				this.fetchFeed("",this.history[historySize-1]);
+			if (historySize > 0) {
+				this.fetchFeed("", this.history[historySize - 1]);
 			}
 		},
-		
+
 	}
 </script>
 <style>
-	.rssInput input{
+	.rssInput input {
 		padding: 10px;
 		font-size: 18px;
 		border: 1px solid #d0d0d0;
 		border-radius: 5px;
 		width: calc(100% - 110px);
-		box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.16),0 0px 0px 1px rgba(0, 0, 0, 0.06);
+		box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.16), 0 0px 0px 1px rgba(0, 0, 0, 0.06);
 	}
-	.rssInput button{
+
+	.rssInput button {
 		text-transform: uppercase;
 		padding: 13px 10px;
 		background: #ff7043;
@@ -72,11 +73,12 @@
 		border: none;
 		border-radius: 5px;
 		font-weight: bold;
-		box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.16),0 0px 0px 1px rgba(0, 0, 0, 0.06);
+		box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.16), 0 0px 0px 1px rgba(0, 0, 0, 0.06);
 	}
-	.rssInput .input-guide{
+
+	.rssInput .input-guide {
 		display: block;
 		padding-top: 15px;
-		color:white;
+		color: white;
 	}
 </style>

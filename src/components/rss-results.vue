@@ -5,7 +5,6 @@
 				<h2 v-show="list.length < 1" >This is very empty place. You should add RSS feed :)</h2>
 				<li v-for="item in list">
 					<h3 @click="showModal(item)">{{item.title}}</h3> <span><i>{{item.publishedDate}}</i></span><br>
-					<!--<span v-html="item.content"></span>-->
 				</li>
 			</ul>
 		</div>	
@@ -22,9 +21,6 @@
 				this.$parent.modalInfo = item;
 				this.$parent.showModal = true;
 			}
-		},
-		computable: {
-			
 		}
 	}
 </script>
